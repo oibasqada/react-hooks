@@ -5,14 +5,14 @@ import {Link, useParams} from "react-router-dom";
 const MealPage = () => {
 
         const params = useParams()
-        const [meals, setMeal] = useState({})
+        const [meals, setMeal] = useState([])
         const [loading, setLoading] = useState(true)
 
         useEffect(() => {
             axios.get(`https://themealdb.com/api/json/v1/1/search.php?s=${params.name}`)
                 .then (({data}) => {
                     setMeal(data.meals[0])
-                    console.log(data)
+                    // console.log(data)
                 })
                 .finally(() => {
                     setLoading(false)
@@ -29,6 +29,7 @@ const MealPage = () => {
                                 <h2>Category: {meals.strCategory}</h2>
                                 <h3>{meals.strArea} food</h3>
                             </div>
+                            <button><Link to={'/'}>Back</Link></button>
                             <div className="meal-desc">
                                 <img src={meals.strMealThumb} alt=""/>
                                 <p>{meals.strInstructions}</p>
@@ -40,7 +41,7 @@ const MealPage = () => {
                                     meals.strIngredient1 &&
                                     <div className="misc">
                                         <img src={`https://themealdb.com/images/ingredients/${meals.strIngredient1}.png`} alt="?"/>
-                                        <a href={'#'}>{meals.strIngredient1}</a>
+                                        <a href={'#'}><Link to={`/misc/${meals.idIngredient}`}>{meals.strIngredient1}</Link></a>
                                     </div>
                                 }
                                 {
